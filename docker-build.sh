@@ -59,7 +59,7 @@ if [ -z "$3" ]; then
 fi
 image="$3"
 base_image_name=$(basename $image)
-if [ "$image_base_name" = "pika" ]; then
+if [ "$base_image_name" = "pika" ]; then
     clean_submodule=1
 fi
 
@@ -112,11 +112,12 @@ fi
 set -e
 
 if [ $skip_latest -eq 1 ]; then
+    # ~/bin/docker-run $image:$x
     exit 0
 fi
 
-latest="$image:latest"
 set +e
+latest="$image:latest"
 ret_msg=$(docker pull "$latest" 2>&1)
 if [ $? -ne 0 ]; then
     if [[ $ret_msg == *"manifest for $image:latest not found"* ]]; then
@@ -125,9 +126,8 @@ if [ $? -ne 0 ]; then
 else
     latest_version=$(docker inspect $latest | grep "${base_image_name}:" | grep -v latest | awk '{print $1}' | sed --expression s/\"//g | sed --expression s/,//g | sed --expression s/"${base_image_name}:"//g | grep -v harbor)
 fi
-echo "latest version: $latest_version"
+echo "latest version: \"$latest_version\""
 
-#latest_version=0.0.0
 if [ -z "$latest_version" ]; then
     echo "latest_version is empty, continue?"
     select yn in "Yes" "No"; do
