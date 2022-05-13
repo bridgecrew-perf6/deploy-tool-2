@@ -1,0 +1,67 @@
+#!/usr/bin/python3
+
+import sys
+
+
+class Version:
+    def __init__(self, a: int, b: int, c: int, d: int=0):
+        self.a = a
+        self.b = b
+        self.c = c
+        self.d = d
+
+    def compare(self, another: 'Version'):
+        if self.a > another.a:
+            return 1
+        if self.a < another.a:
+            return -1
+        if self.b > another.b:
+            return 1
+        if self.b < another.b:
+            return -1
+        if self.c > another.c:
+            return 1
+        if self.c < another.c:
+            return -1
+        if self.d > another.d:
+            return 1
+        if self.d < another.d:
+            return -1
+        return 0
+
+
+IllegalVersion = Version(-1, -1, -1, -1)
+
+
+def parse_version(version: str):
+    version = version.replace("s", "")
+    parts = version.split(".")
+    if len(parts) < 3:
+        return IllegalVersion
+    ints = []
+    for part in parts:
+        try:
+            ints.append(int(part))
+        except ValueError:
+            return IllegalVersion
+    if len(parts) == 3:
+        return Version(ints[0], ints[1], ints[2])
+    return Version(ints[0], ints[1], ints[2], ints[3])
+
+
+if len(sys.argv) < 3:
+    print("wrong usage, use '%s first_version second_version'" % sys.argv[0])
+    sys.exit(1)
+
+
+firstVersion = parse_version(sys.argv[1])
+if firstVersion is IllegalVersion:
+    print("illegal first version %s" % sys.argv[1])
+    sys.exit(1)
+secondVersion = parse_version(sys.argv[2])
+if secondVersion is IllegalVersion:
+    print("illegal second version %s" % sys.argv[2])
+    sys.exit(1)
+
+print("%d" % firstVersion.compare(secondVersion))
+sys.exit(0)
