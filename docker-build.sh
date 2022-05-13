@@ -101,7 +101,7 @@ set +e
 if [ "$action" = "push" ]; then
     while true
     do
-        docker login --username $username --password $password harbor.shopeemobile.com
+        docker login --username $username --password $password $harbor_addr
         docker push $image:$x
         if [ $? -eq 0 ]; then
             break
