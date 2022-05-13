@@ -1,6 +1,5 @@
-copy template and update your config.
+First, copy template and update your config.
+Then use `cd your_source_dir; ./docker-build.sh [--use-current-branch --skip-latest] tag_name build/push full_image_name [docker_file_name]`.
 
-
-For codis, use `cd codis_source_dir; ./docker-build.sh [--use-current-branch --skip-latest] tag_name build/push harbor.shopeemobile.com/cloud/codis`.
-For pika, use `cd pika_source_dir; ./docker-build.sh [--use-current-branch --skip-latest] tag_name build/push harbor.shopeemobile.com/cloud/pika`.
+If not passing docker_file_name, will use default --- "Dockerfile"
 
